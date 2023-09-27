@@ -4,6 +4,7 @@ const axios = require('axios');
 const formData = require('form-data');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const extrairPlaca = require('../utils/extrairPlaca.js');
+const PDFDocument = require('pdfkit');
 require('dotenv').config();
 
 const router = express.Router();
@@ -82,9 +83,45 @@ router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
   }
 });
 
-router.get('/relatorio/cidade/:cidade', (req, res) => {
-  res.json({ "teste": "teste" });
-});
+router.get('/relatorio/cidade/:cidade', async (req, res) => {
+  const cidade = req.params.cidade;
+
+  try {
+    let registros;
+    try{
+      await client.connect();
+      const collection = client.db("database").collection("placas");
+      
+      registros = await collection.find({ cidade }).toArray();
+
+      if (registros.length === 0) {
+        return res.status(404).json({ error: 'Nenhum registro encontrado para a cidade especificada.' });
+      }
+    } finally {
+      await client.close();
+    }
+
+    const doc = new PDFDocument();
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=relatorio_${cidade}.pdf`);
+    doc.pipe(res);
+
+    doc.fontSize(18).text(`Relatório de Placas - Cidade: ${cidade}`, { align: 'center' });
+    doc.moveDown();
+
+    registros.forEach((registro) => {
+      doc.text(`Número da Placa: ${registro.placa}`);
+      doc.text(`Cidade: ${registro.cidade}`);
+      doc.text(`Data: ${registro.data}`);
+      doc.text(`Hora: ${registro.hora}`);
+      doc.moveDown();
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Ocorreu um erro ao gerar o relatório.' });
+}});
 
 router.get('/consulta/:placa', (req, res) => {
 
