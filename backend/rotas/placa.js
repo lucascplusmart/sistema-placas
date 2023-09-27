@@ -85,7 +85,6 @@ router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
 
 router.get('/relatorio/cidade/:cidade', async (req, res) => {
   const cidade = req.params.cidade;
-
   try {
     let registros;
     try{
@@ -119,13 +118,27 @@ router.get('/relatorio/cidade/:cidade', async (req, res) => {
 
     doc.end();
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Ocorreu um erro ao gerar o relatório.' });
 }});
 
-router.get('/consulta/:placa', (req, res) => {
-
-  res.json({ "teste": "teste" });
+router.get('/consulta/:placa', async(req, res) => {
+  try{
+    let placa = req.params.placa;
+    try {
+      await client.connect();
+      const collection = client.db("database").collection("placas");
+      placa = await collection.findOne({ placa });
+    } finally {
+      await client.close();
+    }
+    if (placa) {
+      res.json({ placa: placa });
+    } else {
+      res.status(404).json({ error: "Nenhum registro encontrado." });
+    }
+  }catch (error) {
+      res.status(500).json({ error: 'Ocorreu um erro ao consultar a placa.' });
+    }
 });
 
 

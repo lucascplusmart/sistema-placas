@@ -5,8 +5,8 @@ const app = express();
 
 app.use(express.json()); // Permite o uso de JSON no corpo das requisições
 
-// Todas as rotas de alunos começam com 'api'
-app.use('/api', placaRota);
+// Todas as rotas de alunos começam com 'api/placas/'
+app.use('/api/placas', placaRota);
 
 
 const PORT = 3000; // Você pode escolher uma porta diferente se necessário
