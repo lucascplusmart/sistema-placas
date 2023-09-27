@@ -1,8 +1,10 @@
 const express = require('express');
-const alunosData = require('../dados/placa'); // Importa os dados dos alunos
 const multer = require('multer');
 const axios = require('axios');
 const formData = require('form-data');
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const extrairPlaca = require('../utils/extrairPlaca.js');
+require('dotenv').config();
 
 const router = express.Router();
 
@@ -10,24 +12,16 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 const ocrApiUrl = 'https://api.ocr.space/parse/image';
+const apiKey = process.env.API_KEY;
 
-const apiKey = 'SUA KEY';
-
-function extrairPlaca(texto) {
-  const regexAntigo = /[A-Z]{3}[^A-Z0-9]*[0-9]{4}/;
-  const regexAtual = /[A-Z]{3}[0-9]{1}[A-Z0-9]{1}[0-9]{2}/;
-
-  const matchAntigo = texto.match(regexAntigo);
-  const matchAtual = texto.match(regexAtual);
-
-  if (matchAntigo) {
-    return matchAntigo[0];
-  } else if (matchAtual) {
-    return matchAtual[0];
-  } else {
-    return null; 
+const uri = process.env.MONGODB_URI;
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
   }
-}
+});
 
 router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
   try {
@@ -35,8 +29,13 @@ router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
       return res.status(400).json({ error: 'Apenas arquivos no formato png.' });
     }
 
+    const currentDate = new Date();
+    const dataHora = new Date(currentDate.getTime() - (3 * 60 * 60 * 1000));
+    const dataAtual = dataHora.toISOString().split('T')[0]; 
+    const horaAtual = dataHora.toISOString().split('T')[1].split('.')[0]; 
+    let dados; 
+    // Consumindo a API
     const form = new formData();
-
     form.append('file', req.file.buffer, {
       filename: 'image.png',
       contentType: 'image/png'
@@ -50,26 +49,33 @@ router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
       headers: {
           'apikey': apiKey,
           ...form.getHeaders()
-        }
-  };
+        }};
 
     const response = await axios.post(ocrApiUrl, form, options);
-
     if (!response || !response.data || !response.data.ParsedResults || !response.data.ParsedResults[0]) {
       return res.status(400).json({ error: 'Imagem invalida' });
     }
-    
+    // Tratando a resposta
     const numero_placa = extrairPlaca(response.data.ParsedResults[0].ParsedText);
-    
     if (!numero_placa) {
       return res.status(400).json({ error: 'Não foi possível detectar o número da placa.' });
     }
+    // Inserindo no banco de dados
+    try {
+      await client.connect();
+      const collection = client.db("database").collection("placas");
+      dados = {
+        placa: numero_placa,
+        cidade: req.body.cidade, 
+        data: dataAtual,
+        hora: horaAtual
+      };
+      await collection.insertOne(dados);
+    } finally {
+      await client.close();
+    }
 
-    // to do: Mongo Connection
-
-    console.log(numero_placa)
-    res.json(numero_placa)
-
+    res.status(200).json(dados)
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Ocorreu um erro!' });
@@ -77,7 +83,6 @@ router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
 });
 
 router.get('/relatorio/cidade/:cidade', (req, res) => {
-
   res.json({ "teste": "teste" });
 });
 
