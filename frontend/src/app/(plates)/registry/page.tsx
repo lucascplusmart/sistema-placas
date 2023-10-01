@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 type Props = {};
@@ -11,13 +10,9 @@ interface formProps {
 }
 
 const Registry = (props: Props) => {
-  const [city, SetCity] = useState<string>('');
-  const [image, SetImage] = useState<File>();
-
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<formProps>();
 
@@ -45,8 +40,7 @@ const Registry = (props: Props) => {
           id="city_input"
           type="text"
           placeholder="Nome da cidade"
-          value={city}
-          onChange={(event) => SetCity(event.target.value)}
+          {...register('city')}
           required
         />
       </div>
@@ -62,9 +56,7 @@ const Registry = (props: Props) => {
           id="file_input"
           type="file"
           accept="image/png"
-          onChange={(event) =>
-            event.target.files ? SetImage(event.target.files[0]) : null
-          }
+          {...register('image')}
           required
         />
         <p className="p-2 text-zinc-600">.PNG</p>
