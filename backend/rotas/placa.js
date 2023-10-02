@@ -43,7 +43,7 @@ router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
     });
     form.append('detectOrientation', 'true');
     form.append('scale', 'true');
-    form.append('OCREngine', '2');
+    form.append('OCREngine', '1');
     form.append('filetype', 'png');
 
     let options = {
@@ -78,7 +78,6 @@ router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
 
     res.status(200).json(dados)
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: 'Ocorreu um erro!' });
   }
 });
