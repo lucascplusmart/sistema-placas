@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 
-import PlateProps from '@/interfaces/plate';
 import RegistryProps from '@/interfaces/plate-registry';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -16,7 +15,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 
 import { Loader2 } from 'lucide-react';
@@ -31,8 +29,6 @@ const Registry = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const [resData, setResData] = useState<PlateProps>();
-
   const onSubmit: SubmitHandler<RegistryProps> = (data) => {
     setIsUpdating(true);
 
@@ -40,14 +36,9 @@ const Registry = () => {
     formData.append('cidade', data.cidade);
     formData.append('image', data.image[0]);
 
-    fetcher('/cadastroPlaca', formData)
-      .then((res) => {
-        const plate_data = res.data;
-        console.log(plate_data), setResData(plate_data), console.log(res);
-      })
-      .finally(() => {
-        setIsUpdating(false), setIsOpen(true);
-      });
+    fetcher('/cadastroPlaca', formData).finally(() => {
+      setIsUpdating(false), setIsOpen(true);
+    });
   };
 
   return (
@@ -113,53 +104,7 @@ const Registry = () => {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Dados enviados com sucesso</DialogTitle>
-            <DialogDescription>Descrição dos dados</DialogDescription>
           </DialogHeader>
-          <div className="flex flex-col w-full gap-3">
-            {/* cidade */}
-            <div className="flex flex-col items-start">
-              <Label
-                htmlFor="cidade"
-                className="text-lg font-bold text-blue-500"
-              >
-                Cidade
-              </Label>
-              <span id="cidade ">{resData?.cidade}</span>
-            </div>
-
-            {/* placa */}
-            <div className="flex flex-col items-start">
-              <Label
-                htmlFor="placa"
-                className="text-lg font-bold text-blue-500"
-              >
-                Placa
-              </Label>
-              <span id="placa">{resData?.placa}</span>
-            </div>
-
-            {/* data */}
-            <div className="flex flex-col items-start">
-              <Label
-                htmlFor="data"
-                className="text-lg font-bold text-blue-500"
-              >
-                Data
-              </Label>
-              <span id="data">{resData?.data}</span>
-            </div>
-
-            {/* hora */}
-            <div className="flex flex-col items-start">
-              <Label
-                htmlFor="hora"
-                className="text-lg font-bold text-blue-500"
-              >
-                Hora
-              </Label>
-              <span id="hora">{resData?.hora}</span>
-            </div>
-          </div>
         </DialogContent>
       </Dialog>
     </div>
