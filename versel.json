@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "routes": [
+      {
+        "src": "/api/(.*)",  
+        "dest": "/backend/$1",
+        "headers": {
+          "Cache-Control": "no-cache"
+        }
+      },
+      {
+        "src": "/(.*)",  
+        "dest": "/frontend/$1",
+        "headers": {
+          "Cache-Control": "s-maxage=1, stale-while-revalidate"
+        }
+      }
+    ]
+  }
+  
