@@ -1,7 +1,10 @@
 const express = require('express');
 const placaRota = require('./rotas/placa'); // Importa as rotas da placas
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json()); // Permite o uso de JSON no corpo das requisições
 
