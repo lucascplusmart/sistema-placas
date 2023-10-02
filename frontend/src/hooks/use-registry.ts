@@ -12,7 +12,7 @@ export const fetcher = async (url: string, args: FormData) => {
     data: args,
   });
 
-  return res.data;
+  return res;
 };
 
 // const useRegistry = async (registry: RegistryProps) => {
