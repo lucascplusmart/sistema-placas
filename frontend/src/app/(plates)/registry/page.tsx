@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 
+import PlateProps from '@/interfaces/plate';
+import RegistryProps from '@/interfaces/plate-registry';
+
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { fetcher } from '@/hooks/use-registry';
-
-import RegistryProps from '@/interfaces/plate-registry';
 
 import {
   Dialog,
@@ -15,19 +16,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-
 import { Label } from '@/components/ui/label';
-
 import { Button } from '@/components/ui/button';
 
 import { Loader2 } from 'lucide-react';
-
-type responseType = {
-  placa: string;
-  cidade: string;
-  data: string;
-  hora: string;
-};
 
 const Registry = () => {
   const {
@@ -39,7 +31,7 @@ const Registry = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const [resData, setResData] = useState<responseType>();
+  const [resData, setResData] = useState<PlateProps>();
 
   const onSubmit: SubmitHandler<RegistryProps> = (data) => {
     setIsUpdating(true);
@@ -56,8 +48,6 @@ const Registry = () => {
       .finally(() => {
         setIsUpdating(false), setIsOpen(true);
       });
-
-    console.log(resData);
   };
 
   return (

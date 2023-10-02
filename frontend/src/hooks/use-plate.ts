@@ -8,7 +8,7 @@ export const fetcher = async (url: string) => {
     url: url,
   });
 
-  return res.data;
+  return res;
 };
 
 export const usePlate = (plate: string) => {
