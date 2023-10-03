@@ -10,6 +10,8 @@ import { fetcher } from '@/hooks/use-report';
 
 import { Loader2 } from 'lucide-react';
 
+import { API_BASE_URL } from '@/utils/api-base-config';
+
 type formProps = {
   plate: string;
 };
@@ -30,7 +32,7 @@ const Report = () => {
       .then((res) => {
         // Setting various property values
         let alink = document.createElement('a');
-        alink.href = `http://localhost:8080/api/placas/relatorio/cidade/${data.plate}`;
+        alink.href = `${API_BASE_URL}/relatorio/cidade/${data.plate}`;
         alink.setAttribute('download', 'relatorio.pdf');
         alink.click();
       })
