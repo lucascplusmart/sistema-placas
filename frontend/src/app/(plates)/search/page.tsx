@@ -52,10 +52,12 @@ const Search = () => {
 
   return (
     <div className="flex flex-col w-full h-full items-center justify-start">
-      <div className="w-1/2 h-2/3 flex flex-col items-center bg-white rounded p-3">
+      <div className="w-1/2 lg:w-1/3 h-2/3 flex flex-col items-center bg-white rounded p-3">
         <div className="flex flex-col items-start w-full">
-          <h1 className="text-xl text-blue-500 font-semibold">Relatório</h1>
-          <h2 className="text-md text-zinc-500">Consulte aqui sua placa</h2>
+          <h1 className="text-xl text-blue-500 font-semibold">
+            Consulta de placas
+          </h1>
+          <h2 className="text-md text-zinc-500">Busque pela sua placa</h2>
         </div>
 
         <Dialog

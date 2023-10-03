@@ -2,16 +2,19 @@ import useSWR from 'swr';
 
 import { axiosBaseConfig } from '@/utils/api-base-config';
 
-const fetcher = async (url: string) => {
+export const fetcher = async (url: string) => {
   const res = await axiosBaseConfig({
     method: 'get',
     url: url,
+    headers: {
+      'Content-Type': 'application/pdf',
+    },
   });
 
-  return res.data;
+  return res;
 };
 
-const useReport = (city: string) => {
+export const useReport = (city: string) => {
   const { data, error, isLoading } = useSWR(
     `relatorio/cidade/${city}`,
     fetcher
@@ -23,5 +26,3 @@ const useReport = (city: string) => {
     isLoading,
   };
 };
-
-export default useReport;
