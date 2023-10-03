@@ -140,5 +140,9 @@ router.get('/consulta/:placa', async(req, res) => {
     }
 });
 
+router.get('/teste', async(req, res) => {
+    return res.json("ola munfo")
+});
+
 
 module.exports = router;
