@@ -7,18 +7,10 @@
       }
     ],
     "routes": [
-      {
-        "src": "/api/placas/consulta/:placa", 
-        "dest": "index.js" 
-      },
-      {
-        "src": "/api/placas/cadastroPlaca",
-        "dest": "index.js"
-      },
-      {
-        "src": "/api/placas/relatorio/cidade/:cidade",
-        "dest": "index.js"
-      }
+        {
+            "src": "/api/placas/*",
+            "dest": "index.js"
+          }
     ]
   }
   
