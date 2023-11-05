@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { Button } from '@/components/ui/button';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -9,8 +11,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 
 import { useToast } from '@/components/ui/use-toast';
-
-import { redirect } from 'next/navigation';
 
 type LoginProps = {
   email: string;
@@ -26,6 +26,8 @@ const Login = () => {
 
   const [isUpdating, setIsUpdating] = useState(false);
 
+  const { push } = useRouter();
+
   const { toast } = useToast();
 
   const callToast = () => {
@@ -36,7 +38,7 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginProps> = (data) => {
     callToast();
-    redirect('/registry');
+    push('/registry');
   };
 
   return (
