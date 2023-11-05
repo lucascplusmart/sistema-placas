@@ -12,17 +12,17 @@ import { Loader2 } from 'lucide-react';
 
 import { useToast } from '@/components/ui/use-toast';
 
-type LoginProps = {
+type UserRegistryProps = {
   email: string;
   password: string;
 };
 
-const Login = () => {
+const UserRegistry = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginProps>();
+  } = useForm<UserRegistryProps>();
 
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -32,11 +32,11 @@ const Login = () => {
 
   const callToast = () => {
     toast({
-      title: 'Login realizado com sucesso!',
+      title: 'Cadastro realizado com sucesso!',
     });
   };
 
-  const onSubmit: SubmitHandler<LoginProps> = (data) => {
+  const onSubmit: SubmitHandler<UserRegistryProps> = (data) => {
     callToast();
     push('/plate-registry');
   };
@@ -48,7 +48,7 @@ const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="w-full text-blue-500 text-xl font-bold text-center mb-3">
-          <h1>Login</h1>
+          <h1>Cadastro de usuário</h1>
         </div>
         <div className="mb-4 w-10/12">
           <label
@@ -90,7 +90,7 @@ const Login = () => {
             disabled={isUpdating}
           >
             {isUpdating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Enviar
+            Cadastrar
           </Button>
         </div>
       </form>
@@ -98,4 +98,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default UserRegistry;

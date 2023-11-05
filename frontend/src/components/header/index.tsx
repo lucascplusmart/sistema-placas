@@ -2,37 +2,67 @@
 
 import Link from 'next/link';
 
+import { useState } from 'react';
+
 import { usePathname } from 'next/navigation';
+
+import { Separator } from '@/components/ui/separator';
+
+import { LogOut } from 'lucide-react';
 
 type Props = {};
 
 const Header = (props: Props) => {
   const pathname = usePathname();
+  const [openPlate, setOpenPlate] = useState(false);
+  const [openUser, setOpenUser] = useState(false);
 
   return (
     <header className="w-full h-12 px-5 flex items-center content-around bg-zinc-900 text-zinc-50">
-      <span className="text-xl">Sistema de placas</span>
-      <nav className="ms-auto flex gap-10">
+      <span className="text-xl me-auto">Sistema de placas</span>
+      <nav className="ms-auto flex gap-10 text-sm">
         <Link
           data-currentroute={pathname === '/registry' ? true : false}
           className="hover:text-zinc-300 data-[currentroute=true]:text-blue-500"
-          href={'/registry'}
+          href={'/user-registry'}
         >
-          Registrar
+          Cadastrar usuário
+        </Link>
+        <Separator
+          orientation="vertical"
+          className="h-6 bg-zinc-500"
+        />
+        <Link
+          data-currentroute={pathname === '/registry' ? true : false}
+          className="hover:text-zinc-300 data-[currentroute=true]:text-blue-500"
+          href={'/plate-registry'}
+        >
+          Registrar placa
         </Link>
         <Link
           data-currentroute={pathname === '/report' ? true : false}
           className="hover:text-zinc-300 data-[currentroute=true]:text-blue-500"
-          href={'/report'}
+          href={'/plate-report'}
         >
-          Relatório
+          Relatório de placa
         </Link>
         <Link
           data-currentroute={pathname === '/search' ? true : false}
           className="hover:text-zinc-300 data-[currentroute=true]:text-blue-500"
-          href={'/search'}
+          href={'/plate-search'}
         >
-          Consultar
+          Consultar placa
+        </Link>
+        <Separator
+          orientation="vertical"
+          className="h-6 bg-zinc-500"
+        />
+        <Link
+          className="hover:text-zinc-300 data-[currentroute=true]:text-blue-500"
+          title="Logout"
+          href={'/login'}
+        >
+          <LogOut />
         </Link>
       </nav>
     </header>
