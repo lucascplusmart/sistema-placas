@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const axios = require('axios');
+const verificarJWT = require('../middlewares/verificarJWT.js')
 const formData = require('form-data');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const extrairPlaca = require('../utils/extrairPlaca.js');
@@ -24,7 +25,7 @@ const client = new MongoClient(uri, {
   }
 });
 
-router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
+router.post('/cadastroPlaca', verificarJWT, upload.single('image'), async (req, res) => {
   try {
     if (!req.file || req.file.mimetype !== 'image/png') {
       return res.status(400).json({ error: 'Apenas arquivos no formato png.' });
@@ -82,7 +83,7 @@ router.post('/cadastroPlaca', upload.single('image'), async (req, res) => {
   }
 });
 
-router.get('/relatorio/cidade/:cidade', async (req, res) => {
+router.get('/relatorio/cidade/:cidade', verificarJWT, async (req, res) => {
   const cidade = req.params.cidade;
   try {
     let registros;
@@ -120,7 +121,7 @@ router.get('/relatorio/cidade/:cidade', async (req, res) => {
     res.status(500).json({ error: 'Ocorreu um erro ao gerar o relatório.' });
 }});
 
-router.get('/consulta/:placa', async(req, res) => {
+router.get('/consulta/:placa', verificarJWT, async(req, res) => {
   try{
     let placa = req.params.placa;
     try {
@@ -140,8 +141,8 @@ router.get('/consulta/:placa', async(req, res) => {
     }
 });
 
-router.get('/teste', async(req, res) => {
-    return res.json("ola munfo")
+router.get('/teste', verificarJWT, async(req, res) => {
+    return res.json("ola mundo")
 });
 
 
