@@ -11,6 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 
 import { useToast } from '@/components/ui/use-toast';
+import userLogin from '@/auth/user-login';
 
 type LoginProps = {
   email: string;
@@ -38,6 +39,7 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginProps> = (data) => {
     callToast();
+    // userLogin(data.email, data.password);
     push('/plate-registry');
   };
 
