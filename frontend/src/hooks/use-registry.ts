@@ -4,21 +4,16 @@ import { useEffect, useState } from 'react';
 
 import { axiosBaseConfig } from '@/utils/api-base-config';
 
-export function useRegistry<T = unknown>(url: string, args: FormData) {
-  const [data, setData] = useState<T | null>(null);
-  const [isFetching, setIsFetching] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    axiosBaseConfig({
-      method: 'post',
-      url: url,
-      headers: {
-        'Content-Type': 'multiply/form-data',
-      },
-      data: args,
-    }).then;
+export const postRegistry = async (url: string, args: FormData) => {
+  const res = await axiosBaseConfig({
+    method: 'post',
+    url: url,
+    headers: {
+      'Content-Type': 'multiply/form-data',
+      'x-auth-token': sessionStorage.getItem('auth-token'),
+    },
+    data: args,
   });
 
-  return data;
-}
+  return res;
+};

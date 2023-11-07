@@ -8,6 +8,7 @@ export const fetcher = async (url: string) => {
     url: url,
     headers: {
       'Content-Type': 'application/pdf',
+      'x-auth-token': sessionStorage.getItem('auth-token'),
     },
   });
 
@@ -16,7 +17,7 @@ export const fetcher = async (url: string) => {
 
 export const useReport = (city: string) => {
   const { data, error, isLoading } = useSWR(
-    `relatorio/cidade/${city}`,
+    `placas/relatorio/cidade/${city}`,
     fetcher
   );
 

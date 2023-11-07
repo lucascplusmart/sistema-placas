@@ -6,6 +6,9 @@ export const fetcher = async (url: string) => {
   const res = await axiosBaseConfig({
     method: 'get',
     url: url,
+    headers: {
+      'x-auth-token': sessionStorage.getItem('auth-token'),
+    },
   });
 
   return res;
@@ -13,7 +16,7 @@ export const fetcher = async (url: string) => {
 
 export const usePlate = (plate: string) => {
   const { data, error, isLoading, mutate } = useSWR(
-    `consulta/${plate}`,
+    `placas/consulta/${plate}`,
     fetcher
   );
 

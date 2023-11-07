@@ -6,7 +6,7 @@ import RegistryProps from '@/interfaces/plate-registry';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import { fetcher } from '@/hooks/use-registry';
+import { postRegistry } from '@/hooks/use-registry';
 
 import {
   Dialog,
@@ -36,7 +36,7 @@ const Registry = () => {
     formData.append('cidade', data.cidade);
     formData.append('image', data.image[0]);
 
-    fetcher('/cadastroPlaca', formData).finally(() => {
+    postRegistry('/cadastroPlaca', formData).finally(() => {
       setIsUpdating(false), setIsOpen(true);
     });
   };
