@@ -28,13 +28,17 @@ const Report = () => {
   const onSubmit: SubmitHandler<formProps> = (data) => {
     setIsUpdating(true);
 
-    fetcher(`relatorio/cidade/${data.plate}`)
+    fetcher(data.plate)
       .then((res) => {
         // Setting various property values
-        let alink = document.createElement('a');
-        alink.href = `${API_BASE_URL}/relatorio/cidade/${data.plate}`;
-        alink.setAttribute('download', 'relatorio.pdf');
-        alink.click();
+        // let alink = document.createElement('a');
+        // alink.href = `${API_BASE_URL}placas/relatorio/cidade/${data.plate}`;
+        // alink.setAttribute('download', 'relatorio.pdf');
+        // alink.click();
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
       })
       .finally(() => {
         setIsUpdating(false);

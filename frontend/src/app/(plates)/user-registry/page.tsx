@@ -31,9 +31,15 @@ const UserRegistry = () => {
 
   const { toast } = useToast();
 
-  const callToast = () => {
+  const callToast = (
+    title: string,
+    description: string,
+    isDestructive: boolean
+  ) => {
     toast({
-      title: 'Cadastro realizado com sucesso!',
+      title: title,
+      description: description,
+      variant: isDestructive ? 'destructive' : 'default',
       duration: 2000,
     });
   };
@@ -43,10 +49,15 @@ const UserRegistry = () => {
     userRegistry(data.email, data.password)
       .then((res) => {
         console.log(res);
+        callToast('Sucesso', 'Cadastro realizado!', false);
+        push('/plate-registry');
+      })
+      .catch((e) => {
+        console.log(e);
+        callToast('Erro', 'Algo deu errado na requisição!', true);
       })
       .finally(() => {
-        callToast();
-        push('/plate-registry');
+        setIsUpdating(false);
       });
   };
 

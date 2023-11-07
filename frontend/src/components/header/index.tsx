@@ -11,6 +11,10 @@ import { LogOut } from 'lucide-react';
 const Header = () => {
   const pathname = usePathname();
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('auth-token');
+  };
+
   return (
     <header className="w-full h-12 px-5 flex items-center content-around bg-zinc-900 text-zinc-50">
       <span className="text-xl me-auto">Sistema de placas</span>
@@ -55,6 +59,7 @@ const Header = () => {
           className="hover:text-zinc-300 data-[currentroute=true]:text-blue-500"
           title="Logout"
           href={'/login'}
+          onClick={handleLogout}
         >
           <LogOut />
         </Link>

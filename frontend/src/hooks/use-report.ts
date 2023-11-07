@@ -1,11 +1,9 @@
-import useSWR from 'swr';
-
 import { axiosBaseConfig } from '@/utils/api-base-config';
 
-export const fetcher = async (url: string) => {
+export const fetcher = async (city: string) => {
   const res = await axiosBaseConfig({
     method: 'get',
-    url: url,
+    url: `placas/relatorio/cidade/${city}`,
     headers: {
       'Content-Type': 'application/pdf',
       'x-auth-token': sessionStorage.getItem('auth-token'),
@@ -13,17 +11,4 @@ export const fetcher = async (url: string) => {
   });
 
   return res;
-};
-
-export const useReport = (city: string) => {
-  const { data, error, isLoading } = useSWR(
-    `placas/relatorio/cidade/${city}`,
-    fetcher
-  );
-
-  return {
-    plate: data,
-    error,
-    isLoading,
-  };
 };
