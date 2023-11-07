@@ -41,15 +41,18 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginProps> = (data) => {
     setIsUpdating(true);
+
     userLogin(data.email, data.password)
       .then((res) => {
-        console.log(res);
-        // sessionStorage.setItem('auth-token', res.headers['x-auth-token']);
+        sessionStorage.setItem('auth-token', res.data.Token);
+        callToast();
+        push('/plate-registry');
+      })
+      .catch((e) => {
+        console.log(e);
       })
       .finally(() => {
         setIsUpdating(false);
-        callToast();
-        push('/plate-registry');
       });
   };
 
@@ -72,7 +75,7 @@ const Login = () => {
           <input
             className="shadow relative appearance-none border border-zinc-600 rounded w-full py-2 px-3 text-zinc-100 bg-transparent leading-tight cursor-pointer"
             id="email_input"
-            type="email"
+            type="text"
             placeholder="example@gmail.com"
             disabled={isUpdating}
             {...register('email')}

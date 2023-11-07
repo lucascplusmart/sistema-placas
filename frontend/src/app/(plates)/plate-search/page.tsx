@@ -40,13 +40,18 @@ const Search = () => {
   const onSubmit: SubmitHandler<formProps> = (data) => {
     setIsUpdating(true);
 
-    fetcher(`consulta/${data.plate}`)
+    fetcher(data.plate)
       .then((res) => {
         const plate_data = res.data.placa;
         setResData(plate_data);
+
+        setIsOpen(true);
+      })
+      .catch((e) => {
+        console.log(e);
       })
       .finally(() => {
-        setIsUpdating(false), setIsOpen(true);
+        setIsUpdating(false);
       });
   };
 
