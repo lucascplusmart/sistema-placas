@@ -11,7 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 
 import { useToast } from '@/components/ui/use-toast';
-import userLogin from '@/auth/user-login';
+import userLogin from '@/functions/user/user-login';
 import { Separator } from '@radix-ui/react-separator';
 
 type LoginProps = {
@@ -35,13 +35,17 @@ const Login = () => {
   const callToast = () => {
     toast({
       title: 'Login realizado com sucesso!',
+      duration: 2000,
     });
   };
 
   const onSubmit: SubmitHandler<LoginProps> = (data) => {
     setIsUpdating(true);
     userLogin(data.email, data.password)
-      .then((res) => {console.log(res)})
+      .then((res) => {
+        console.log(res);
+        // sessionStorage.setItem('auth-token', res.headers['x-auth-token']);
+      })
       .finally(() => {
         setIsUpdating(false);
         callToast();

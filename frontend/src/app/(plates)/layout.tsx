@@ -6,6 +6,7 @@ import { BellRing } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import userAlert from '@/functions/user/user-alert';
 
 export default function DashboardLayout({
   children,
@@ -20,7 +21,16 @@ export default function DashboardLayout({
       title: 'Alerta',
       description:
         'Inconsistência de dados ou equipamentos foram detectados no sistema',
+      duration: 2000,
     });
+  };
+
+  const handleAlert = () => {
+    userAlert()
+      .then((res) => console.log(res))
+      .finally(() => {
+        handleToast();
+      });
   };
 
   return (
@@ -32,7 +42,7 @@ export default function DashboardLayout({
           variant="destructive"
           size="icon"
           className="absolute w-14 h-14 bottom-24 left-8 rounded-full"
-          onClick={handleToast}
+          onClick={handleAlert}
         >
           <BellRing />
         </Button>

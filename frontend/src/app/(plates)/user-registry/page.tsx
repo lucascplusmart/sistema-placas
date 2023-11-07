@@ -11,6 +11,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 
 import { useToast } from '@/components/ui/use-toast';
+import userRegistry from '@/functions/user/registry-user';
 
 type UserRegistryProps = {
   email: string;
@@ -33,12 +34,20 @@ const UserRegistry = () => {
   const callToast = () => {
     toast({
       title: 'Cadastro realizado com sucesso!',
+      duration: 2000,
     });
   };
 
   const onSubmit: SubmitHandler<UserRegistryProps> = (data) => {
-    callToast();
-    push('/plate-registry');
+    setIsUpdating(true);
+    userRegistry(data.email, data.password)
+      .then((res) => {
+        console.log(res);
+      })
+      .finally(() => {
+        callToast();
+        push('/plate-registry');
+      });
   };
 
   return (

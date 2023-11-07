@@ -1,18 +1,17 @@
 import { axiosBaseConfig } from '@/utils/api-base-config';
 
-const userLogin = async (email: string, password: string) => {
+const userRegistry = async (email: string, password: string) => {
   let user = {
     email,
     password,
   };
-  console.log(user);
 
   const response = await axiosBaseConfig({
     method: 'post',
-    url: '/login',
+    url: '/usuario/cadastro',
   });
 
   return response;
 };
 
-export default userLogin;
+export default userRegistry;
