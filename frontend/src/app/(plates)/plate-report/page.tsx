@@ -28,13 +28,15 @@ const Report = () => {
   const onSubmit: SubmitHandler<formProps> = (data) => {
     setIsUpdating(true);
 
-    fetcher(`relatorio/cidade/${data.plate}`)
+    fetcher(data.plate)
       .then((res) => {
-        // Setting various property values
         let alink = document.createElement('a');
-        alink.href = `${API_BASE_URL}/relatorio/cidade/${data.plate}`;
+        alink.href = `${API_BASE_URL}placas/relatorio/cidade/${data.plate}`;
         alink.setAttribute('download', 'relatorio.pdf');
         alink.click();
+      })
+      .catch((e) => {
+        console.log(e);
       })
       .finally(() => {
         setIsUpdating(false);
@@ -56,10 +58,10 @@ const Report = () => {
         >
           <div className="flex items-start justify-between w-full ">
             <input
-              className="w-1/2 shadow appearance-none border rounded py-2 px-3 text-zinc-700 text-md leading-tight focus:outline-blue-500 focus:shadow-outline transition"
+              className="w-1/2 shadow appearance-none border rounded py-2 px-3 text-zinc-700 text-md leading-tightfocus:outline-blue-500 focus:shadow-outline transition"
               id="plate_input"
               type="text"
-              placeholder="Digite sua placa"
+              placeholder="Digite uma cidade"
               {...register('plate')}
               disabled={isUpdating}
               required

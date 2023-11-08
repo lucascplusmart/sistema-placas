@@ -1,26 +1,13 @@
-import useSWR from 'swr';
-
 import { axiosBaseConfig } from '@/utils/api-base-config';
 
-export const fetcher = async (url: string) => {
+export const fetcher = async (plate: string) => {
   const res = await axiosBaseConfig({
     method: 'get',
-    url: url,
+    url: `placas/consulta/${plate}`,
+    headers: {
+      'x-auth-token': localStorage.getItem('auth-token') || '',
+    },
   });
 
   return res;
-};
-
-export const usePlate = (plate: string) => {
-  const { data, error, isLoading, mutate } = useSWR(
-    `consulta/${plate}`,
-    fetcher
-  );
-
-  return {
-    data,
-    error,
-    isLoading,
-    mutate,
-  };
 };

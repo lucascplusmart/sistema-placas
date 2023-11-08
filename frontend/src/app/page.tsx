@@ -1,7 +1,8 @@
 import { redirect } from 'next/navigation';
 
 const Home = async ({ params }: { params: any }) => {
-  redirect('/registry');
+  // Redirecionando para a tela de login
+  redirect('/login');
   return;
 };
 
