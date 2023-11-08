@@ -5,31 +5,27 @@ import Header from '@/components/header';
 import { BellRing } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
+
 import userAlert from '@/functions/user/user-alert';
+
+import showToast from '@/utils/show-toast';
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { toast } = useToast();
-
-  const handleToast = () => {
-    toast({
-      variant: 'destructive',
-      title: 'Alerta',
-      description:
-        'Inconsistência de dados ou equipamentos foram detectados no sistema',
-      duration: 2000,
-    });
-  };
-
   const handleAlert = () => {
     userAlert()
-      .then((res) => console.log(res))
-      .finally(() => {
-        handleToast();
+      .then((res) => {
+        showToast(
+          'Alerta',
+          'Inconsistência de dados ou equipamentos foram detectados no sistema!',
+          true
+        );
+      })
+      .catch((e) => {
+        showToast('Erro', 'Ocorreu um erro ao acionar o alerta!', true);
       });
   };
 

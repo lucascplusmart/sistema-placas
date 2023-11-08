@@ -10,8 +10,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Loader2 } from 'lucide-react';
 
-import { useToast } from '@/components/ui/use-toast';
 import userRegistry from '@/functions/user/registry-user';
+
+import showToast from '@/utils/show-toast';
 
 type UserRegistryProps = {
   email: string;
@@ -29,32 +30,15 @@ const UserRegistry = () => {
 
   const { push } = useRouter();
 
-  const { toast } = useToast();
-
-  const callToast = (
-    title: string,
-    description: string,
-    isDestructive: boolean
-  ) => {
-    toast({
-      title: title,
-      description: description,
-      variant: isDestructive ? 'destructive' : 'default',
-      duration: 2000,
-    });
-  };
-
   const onSubmit: SubmitHandler<UserRegistryProps> = (data) => {
     setIsUpdating(true);
     userRegistry(data.email, data.password)
-      .then((res) => {
-        console.log(res);
-        callToast('Sucesso', 'Cadastro realizado!', false);
-        push('/plate-registry');
+      .then(() => {
+        showToast('Sucesso', 'Cadastro realizado com sucesso!', false);
       })
       .catch((e) => {
         console.log(e);
-        callToast('Erro', 'Algo deu errado na requisição!', true);
+        showToast('Erro', 'Algo deu errado no cadastro!', true);
       })
       .finally(() => {
         setIsUpdating(false);
@@ -80,7 +64,7 @@ const UserRegistry = () => {
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-zinc-700 leading-tight focus:outline-blue-500 focus:shadow-outline transition"
             id="email_input"
-            type="email"
+            type="text"
             placeholder="example@gmail.com"
             disabled={isUpdating}
             {...register('email')}
