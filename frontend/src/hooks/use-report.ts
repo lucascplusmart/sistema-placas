@@ -6,7 +6,7 @@ export const fetcher = async (city: string) => {
     url: `placas/relatorio/cidade/${city}`,
     headers: {
       'Content-Type': 'application/pdf',
-      'x-auth-token': sessionStorage.getItem('auth-token'),
+      'x-auth-token': localStorage.getItem('auth-token') || '',
     },
   });
 

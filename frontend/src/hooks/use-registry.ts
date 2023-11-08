@@ -8,7 +8,7 @@ const postRegistry = async (args: FormData) => {
     url: 'placas/cadastroPlaca',
     headers: {
       'Content-Type': 'multiply/form-data',
-      'x-auth-token': sessionStorage.getItem('auth-token'),
+      'x-auth-token': localStorage.getItem('auth-token') || '',
     },
     data: args,
   });

@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react';
 
-import { useRouter } from 'next/navigation';
-
 import { Button } from '@/components/ui/button';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -27,8 +25,6 @@ const UserRegistry = () => {
   } = useForm<UserRegistryProps>();
 
   const [isUpdating, setIsUpdating] = useState(false);
-
-  const { push } = useRouter();
 
   const onSubmit: SubmitHandler<UserRegistryProps> = (data) => {
     setIsUpdating(true);

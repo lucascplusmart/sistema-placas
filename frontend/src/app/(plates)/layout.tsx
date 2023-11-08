@@ -2,7 +2,7 @@
 
 import Header from '@/components/header';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { redirect } from 'next/navigation';
 
@@ -20,7 +20,12 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [isFetching, setIsFetching] = useState(false);
-  const userToken = sessionStorage.getItem('auth-token');
+  const [userToken, setUserToken] = useState('');
+
+  // Checando se existe um token
+  useEffect(() => {
+    setUserToken(sessionStorage.getItem('auth-token') ?? '');
+  }, [userToken]);
 
   // Função para alertar usuário ao click
   const handleAlert = () => {

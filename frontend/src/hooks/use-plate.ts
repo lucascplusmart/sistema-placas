@@ -5,7 +5,7 @@ export const fetcher = async (plate: string) => {
     method: 'get',
     url: `placas/consulta/${plate}`,
     headers: {
-      'x-auth-token': sessionStorage.getItem('auth-token'),
+      'x-auth-token': localStorage.getItem('auth-token') || '',
     },
   });
 
