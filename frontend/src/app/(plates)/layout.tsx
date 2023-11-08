@@ -4,6 +4,8 @@ import Header from '@/components/header';
 
 import { useState } from 'react';
 
+import { redirect } from 'next/navigation';
+
 import { BellRing } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -18,7 +20,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [isFetching, setIsFetching] = useState(false);
+  const userToken = sessionStorage.getItem('auth-token');
 
+  // Função para alertar usuário ao click
   const handleAlert = () => {
     setIsFetching(true);
 
@@ -38,6 +42,11 @@ export default function DashboardLayout({
         setIsFetching(false);
       });
   };
+
+  if (!userToken) {
+    showToast('Erro', 'Usuário não autenticado!', true);
+    redirect('/login');
+  }
 
   return (
     <div className="flex flex-col min-h-screen min-w-full">
