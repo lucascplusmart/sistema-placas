@@ -17,7 +17,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#admin">Admin</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#fonts">Fonts</a></li>
   </ol>
@@ -83,13 +83,14 @@ Additionally, there is a login and authentication function on each route for log
    ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- USAGE EXAMPLES -->
+<!-- Admin -->
 
-## Usage
-- Angular: 16.1.6
-- Typescript: 5.1.3
-- Bootstrap: ^5.3.1
-- Angular Material: 16.1.6
+## Admin 
+To start using the system there is a default admin user to facilitate your navigation!
+```
+  login: jerry,
+  password: jerry_admin
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
