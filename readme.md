@@ -77,7 +77,6 @@ Additionally, there is a login and authentication function on each route for log
    ```sh
    npm start
    ```
-   ```
 5. Run the `frontend` server
    ```sh
    npm dev
