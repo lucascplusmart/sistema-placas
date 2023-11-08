@@ -2,6 +2,8 @@
 
 import Header from '@/components/header';
 
+import { useState } from 'react';
+
 import { BellRing } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -15,9 +17,13 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [isFetching, setIsFetching] = useState(false);
+
   const handleAlert = () => {
+    setIsFetching(true);
+
     userAlert()
-      .then((res) => {
+      .then(() => {
         showToast(
           'Alerta',
           'Inconsistência de dados ou equipamentos foram detectados no sistema!',
@@ -25,7 +31,11 @@ export default function DashboardLayout({
         );
       })
       .catch((e) => {
+        console.log(e);
         showToast('Erro', 'Ocorreu um erro ao acionar o alerta!', true);
+      })
+      .finally(() => {
+        setIsFetching(false);
       });
   };
 
@@ -39,6 +49,7 @@ export default function DashboardLayout({
           size="icon"
           className="absolute w-14 h-14 bottom-24 left-8 rounded-full"
           onClick={handleAlert}
+          disabled={isFetching}
         >
           <BellRing />
         </Button>
