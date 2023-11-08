@@ -121,10 +121,11 @@ Additionally, there is a login and authentication function on each route for log
 <br />
 
 `Backend` <br /> <br />
-<a href="https://www.linkedin.com/in/jerry-dev-084793203/">
-  <img width="150" height="150" src="https://user-images.githubusercontent.com/62398638/226929073-2c757280-6acf-4641-9fc1-bd7bb1f0485c.jpeg" />
-<a/>
+<div style="display: inline-block">
+  ![guilherme](https://github.com/VictorJGB/sistema-placas/assets/62398638/12961616-b0fe-4f98-8931-3f1d623e2f1e)
 
-<a href="https://github.com/lucascplusmart">
-  <img width="150" height="150" src="https://user-images.githubusercontent.com/62398638/281393665-74598735-7417-468b-a7bf-473fd84a96f7.jpg" />
-<a/>
+  
+  <a href="https://github.com/lucascplusmart">
+    <img width="150" height="150" src="https://user-images.githubusercontent.com/62398638/281393665-74598735-7417-468b-a7bf-473fd84a96f7.jpg" />
+  <a/>
+</div>
