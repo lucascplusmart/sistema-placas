@@ -10,9 +10,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Loader2 } from 'lucide-react';
 
-import { useToast } from '@/components/ui/use-toast';
 import userLogin from '@/functions/user/user-login';
+
 import { Separator } from '@radix-ui/react-separator';
+
+import showToast from '@/utils/show-toast';
 
 type LoginProps = {
   email: string;
@@ -30,22 +32,13 @@ const Login = () => {
 
   const { push } = useRouter();
 
-  const { toast } = useToast();
-
-  const callToast = () => {
-    toast({
-      title: 'Login realizado com sucesso!',
-      duration: 2000,
-    });
-  };
-
   const onSubmit: SubmitHandler<LoginProps> = (data) => {
     setIsUpdating(true);
 
     userLogin(data.email, data.password)
       .then((res) => {
         sessionStorage.setItem('auth-token', res.data.Token);
-        callToast();
+        showToast('Sucesso!', 'Login realizado com sucesso!', false);
         push('/plate-registry');
       })
       .catch((e) => {

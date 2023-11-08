@@ -30,12 +30,10 @@ const Report = () => {
 
     fetcher(data.plate)
       .then((res) => {
-        // Setting various property values
-        // let alink = document.createElement('a');
-        // alink.href = `${API_BASE_URL}placas/relatorio/cidade/${data.plate}`;
-        // alink.setAttribute('download', 'relatorio.pdf');
-        // alink.click();
-        console.log(res);
+        let alink = document.createElement('a');
+        alink.href = `${API_BASE_URL}placas/relatorio/cidade/${data.plate}`;
+        alink.setAttribute('download', 'relatorio.pdf');
+        alink.click();
       })
       .catch((e) => {
         console.log(e);
