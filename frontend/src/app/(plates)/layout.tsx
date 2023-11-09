@@ -24,7 +24,7 @@ export default function DashboardLayout({
 
   // Checando se existe um token
   useEffect(() => {
-    setUserToken(sessionStorage.getItem('auth-token') ?? '');
+    setUserToken(sessionStorage.getItem('auth-token') || '');
   }, [userToken]);
 
   // Função para alertar usuário ao click
@@ -48,7 +48,8 @@ export default function DashboardLayout({
       });
   };
 
-  if (!userToken) {
+  if (userToken === null) {
+    console.log(userToken);
     showToast('Erro', 'Usuário não autenticado!', true);
     redirect('/login');
   }
@@ -58,7 +59,7 @@ export default function DashboardLayout({
       <Header />
       <main className="relative flex items-center justify-center min-h-screen min-w-full">
         {children}
-        <Button
+        <Button 
           variant="destructive"
           size="icon"
           className="absolute w-14 h-14 bottom-24 left-8 rounded-full"
