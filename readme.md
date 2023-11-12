@@ -88,8 +88,8 @@ Additionally, there is a login and authentication function on each route for log
 ## Admin 
 To start using the system there is a default admin user to facilitate your navigation!
 ```
-  login: jerry,
-  password: jerry_admin
+  login: admin,
+  password: admin
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
