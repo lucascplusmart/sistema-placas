@@ -59,7 +59,7 @@ export default function DashboardLayout({
       <Header />
       <main className="relative flex items-center justify-center min-h-screen min-w-full">
         {children}
-        <Button 
+        <Button
           variant="destructive"
           size="icon"
           className="absolute w-14 h-14 bottom-24 left-8 rounded-full"
