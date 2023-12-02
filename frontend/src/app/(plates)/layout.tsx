@@ -1,12 +1,14 @@
 'use client';
 
+import Link from 'next/link';
+
 import Header from '@/components/header';
 
 import { useEffect, useState } from 'react';
 
 import { redirect } from 'next/navigation';
 
-import { BellRing } from 'lucide-react';
+import { BellRing, Cpu } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -48,6 +50,10 @@ export default function DashboardLayout({
       });
   };
 
+  const handleSensor = () => {
+    redirect('/sensor');
+  };
+
   if (userToken === null) {
     console.log(userToken);
     showToast('Erro', 'Usuário não autenticado!', true);
@@ -59,15 +65,31 @@ export default function DashboardLayout({
       <Header />
       <main className="relative flex items-center justify-center min-h-screen min-w-full">
         {children}
-        <Button
-          variant="destructive"
-          size="icon"
-          className="absolute w-14 h-14 bottom-24 left-8 rounded-full"
-          onClick={handleAlert}
-          disabled={isFetching}
-        >
-          <BellRing />
-        </Button>
+        <div className="flex flex-col-reverse items-center justify-center gap-3 absolute bottom-24 left-8">
+          <Button
+            variant="destructive"
+            title="Emitir alerta"
+            size="icon"
+            className="w-14 h-14 rounded-full"
+            onClick={handleAlert}
+            disabled={isFetching}
+          >
+            <BellRing />
+          </Button>
+          <Button
+            asChild
+            variant="secondary"
+            title="Ir para sensores"
+            size="icon"
+            className="w-14 h-14 rounded-full"
+            onClick={handleSensor}
+            disabled={isFetching}
+          >
+            <Link href="/sensor">
+              <Cpu />
+            </Link>
+          </Button>
+        </div>
       </main>
     </div>
   );
