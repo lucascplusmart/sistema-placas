@@ -51,14 +51,34 @@ const SensorDialog = ({ isOpen, onOpenChange }: Props) => {
             <Separator className="bg-secondary self-center my-4 h-0.5 w-3/4" />
 
             <div className="w-full flex flex-col items-start justify-center">
+              {/* canal */}
               <h3 className="font-semibold">
                 Canal:
                 <span className="ms-3 text-zinc-400 font-regular text-base">
                   {data.channel.name}
                 </span>
               </h3>
-              {data.feeds.map((feed) => {
-                return <span key={feed.entry_id}>{feed.field1}</span>;
+
+              <h3 className="font-semibold">
+                Tipo de leitura:
+                <span className="ms-3 text-zinc-400 font-regular text-base">
+                  {data.channel.field1}
+                </span>
+              </h3>
+
+              {/* feeds */}
+              {data.feeds.map((feed, index) => {
+                return (
+                  <h3
+                    key={feed.entry_id}
+                    className="font-semibold"
+                  >
+                    Valor {index + 1}:
+                    <span className="ms-3 text-zinc-400 font-regular text-base">
+                      {+feed.field1} °C
+                    </span>
+                  </h3>
+                );
               })}
             </div>
           </div>
