@@ -15,12 +15,14 @@ import { Button } from '@/components/ui/button';
 import userAlert from '@/functions/user/user-alert';
 
 import showToast from '@/utils/show-toast';
+import SensorDialog from '@/components/dialog/sensor';
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState(false);
   const [userToken, setUserToken] = useState('');
 
@@ -51,7 +53,7 @@ export default function DashboardLayout({
   };
 
   const handleSensor = () => {
-    redirect('/sensor');
+    setIsOpen(true);
   };
 
   if (userToken === null) {
@@ -77,7 +79,6 @@ export default function DashboardLayout({
             <BellRing />
           </Button>
           <Button
-            asChild
             variant="secondary"
             title="Ir para sensores"
             size="icon"
@@ -85,11 +86,13 @@ export default function DashboardLayout({
             onClick={handleSensor}
             disabled={isFetching}
           >
-            <Link href="/sensor">
-              <Cpu />
-            </Link>
+            <Cpu />
           </Button>
         </div>
+        <SensorDialog
+          isOpen={isOpen}
+          onOpenChange={setIsOpen}
+        />
       </main>
     </div>
   );
