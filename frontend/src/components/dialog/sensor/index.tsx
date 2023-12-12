@@ -67,19 +67,12 @@ const SensorDialog = ({ isOpen, onOpenChange }: Props) => {
               </h3>
 
               {/* feeds */}
-              {data.feeds.map((feed, index) => {
-                return (
-                  <h3
-                    key={feed.entry_id}
-                    className="font-semibold"
-                  >
-                    Valor {index + 1}:
-                    <span className="ms-3 text-zinc-400 font-regular text-base">
-                      {+feed.field1} °C
-                    </span>
-                  </h3>
-                );
-              })}
+              <h3 className="font-semibold">
+                Temperatura:
+                <span className="ms-3 text-zinc-400 font-regular text-base">
+                  {+data.feeds[0].field1} °C
+                </span>
+              </h3>
             </div>
           </div>
         </DialogHeader>

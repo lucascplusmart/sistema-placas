@@ -1,19 +1,37 @@
 'use client';
 
+import { useState, useCallback } from 'react';
+
 import { axiosBaseConfig } from '@/utils/api-base-config';
 
-const postRegistry = async (args: FormData) => {
-  const res = await axiosBaseConfig({
-    method: 'post',
-    url: 'placas/cadastroPlaca',
-    headers: {
-      'Content-Type': 'multiply/form-data',
-      'x-auth-token': localStorage.getItem('auth-token') || '',
-    },
-    data: args,
-  });
+import showToast from '@/utils/show-toast';
 
-  return res;
-};
+export default function useRegistry() {
+  const [error, setError] = useState<Error | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-export default postRegistry;
+  const postRegistry = useCallback((args: FormData) => {
+    setIsLoading(true);
+
+    axiosBaseConfig({
+      method: 'post',
+      url: 'placas/cadastroPlaca',
+      headers: {
+        'Content-Type': 'multiply/form-data',
+      },
+      data: args,
+    })
+      .then(() => {
+        showToast('Sucesso!', 'Placa registrada com sucesso!', false);
+      })
+      .catch((e) => {
+        setError(e);
+        showToast('Erro', 'Erro ao registrar placa', true);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  return { postRegistry, error, isLoading };
+}

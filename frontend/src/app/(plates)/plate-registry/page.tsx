@@ -1,17 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-
 import RegistryProps from '@/interfaces/plate-registry';
 
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import postRegistry from '@/hooks/use-registry';
-
 import { Button } from '@/components/ui/button';
 
 import { Loader2 } from 'lucide-react';
-import showToast from '@/utils/show-toast';
+
+import useRegistry from '@/hooks/use-registry';
 
 const Registry = () => {
   const {
@@ -20,24 +17,14 @@ const Registry = () => {
     formState: { errors },
   } = useForm<RegistryProps>();
 
-  const [isUpdating, setIsUpdating] = useState(false);
+  const { postRegistry, isLoading } = useRegistry();
 
   const onSubmit: SubmitHandler<RegistryProps> = (data) => {
     const formData = new FormData();
     formData.append('cidade', data.cidade);
     formData.append('image', data.image[0]);
 
-    setIsUpdating(true);
-    postRegistry(formData)
-      .then((res) => {
-        showToast('Sucesso!', 'Placa cadastrada com sucesso!', false);
-      })
-      .catch((e) => {
-        showToast('Erro', 'Ocorreu um erro no cadastro!', true);
-      })
-      .finally(() => {
-        setIsUpdating(false);
-      });
+    postRegistry(formData);
   };
 
   return (
@@ -61,7 +48,7 @@ const Registry = () => {
             id="city_input"
             type="text"
             placeholder="Nome da cidade"
-            disabled={isUpdating}
+            disabled={isLoading}
             {...register('cidade')}
             required
           />
@@ -78,7 +65,7 @@ const Registry = () => {
             id="file_input"
             type="file"
             accept="image/png"
-            disabled={isUpdating}
+            disabled={isLoading}
             {...register('image')}
             required
           />
@@ -88,9 +75,9 @@ const Registry = () => {
           <Button
             className="cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
-            disabled={isUpdating}
+            disabled={isLoading}
           >
-            {isUpdating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Enviar
           </Button>
         </div>

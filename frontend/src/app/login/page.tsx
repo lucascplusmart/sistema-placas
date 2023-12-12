@@ -43,6 +43,7 @@ const Login = () => {
       })
       .catch((e) => {
         console.log(e);
+        showToast('Erro', 'Ocorreu um erro no login!', true);
       })
       .finally(() => {
         setIsUpdating(false);
