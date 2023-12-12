@@ -10,9 +10,6 @@ const userAlert = async () => {
   const response = await axiosBaseConfig({
     method: 'post',
     url: '/alerta',
-    headers: {
-      'x-auth-token': token,
-    },
   });
 
   return response;
