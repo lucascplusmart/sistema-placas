@@ -2,42 +2,48 @@
 
 import { useState } from 'react';
 
+import { fetcher } from '@/hooks/use-plate';
+
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 
-import { fetcher } from '@/hooks/use-report';
-
 import { Loader2 } from 'lucide-react';
 
-import { API_BASE_URL } from '@/utils/api-base-config';
+import showToast from '@/utils/show-toast';
+
+import PlateProps from '@/interfaces/plate';
+
+import SearchPlateDialog from '@/components/dialog/search-plate';
 
 type formProps = {
   plate: string;
 };
 
-const Report = () => {
+const Search = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<formProps>();
 
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [data, setData] = useState<PlateProps | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<formProps> = (data) => {
-    setIsUpdating(true);
+  const onSubmit: SubmitHandler<formProps> = (plateData) => {
+    setIsLoading(true);
 
-    fetcher(`relatorio/cidade/${data.plate}`)
+    fetcher(`placas/consulta/${plateData.plate}`)
       .then((res) => {
-        // Setting various property values
-        let alink = document.createElement('a');
-        alink.href = `${API_BASE_URL}/relatorio/cidade/${data.plate}`;
-        alink.setAttribute('download', 'relatorio.pdf');
-        alink.click();
+        setData(res.placa);
+      })
+      .catch((e) => {
+        console.error(e);
+        showToast('Erro', 'Ocorreu um erro ao buscar a placa', true);
       })
       .finally(() => {
-        setIsUpdating(false);
+        setIsLoading(false), setIsOpen(true);
       });
   };
 
@@ -45,11 +51,12 @@ const Report = () => {
     <div className="flex flex-col w-full h-full items-center justify-start">
       <div className="w-1/2 lg:w-1/3 h-2/3 flex flex-col items-center bg-white rounded p-3">
         <div className="flex flex-col items-start w-full">
-          <h1 className="text-xl text-blue-500 font-semibold">Relatório</h1>
-          <h2 className="text-md text-zinc-500">
-            Gere um relatório de acordo com a cidade
-          </h2>
+          <h1 className="text-xl text-blue-500 font-semibold">
+            Consulta de placas
+          </h1>
+          <h2 className="text-md text-zinc-500">Busque pela sua placa</h2>
         </div>
+
         <form
           className="mt-5 gap-3 flex flex-col items-start w-full"
           onSubmit={handleSubmit(onSubmit)}
@@ -61,23 +68,29 @@ const Report = () => {
               type="text"
               placeholder="Digite sua placa"
               {...register('plate')}
-              disabled={isUpdating}
+              disabled={isLoading}
               required
             />
 
             <Button
               className="text-white py-2 px-3 cursor-pointer rounded"
               type="submit"
-              disabled={isUpdating}
+              disabled={isLoading}
             >
-              {isUpdating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Pesquisar
             </Button>
           </div>
         </form>
+
+        <SearchPlateDialog
+          data={data}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        />
       </div>
     </div>
   );
 };
 
-export default Report;
+export default Search;

@@ -4,14 +4,14 @@ const createSocket = require('./sockets/sockets');
 const cors = require('cors');
 const app = express();
 app.use(cors());
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 const placaRota = require('./rotas/placa'); // Importa as rotas da placas
 const usuarioRota = require('./rotas/usuario');
-const alertaRota = require('./rotas/alerta')
+const alertaRota = require('./rotas/alerta');
 
- // Permite o uso de JSON no corpo das requisições
+// Permite o uso de JSON no corpo das requisições
 app.get('/api', (req, res) => {
   res.send('Hello');
 });

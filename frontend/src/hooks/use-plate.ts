@@ -1,3 +1,5 @@
+import PlateProps from '@/interfaces/plate';
+
 import useSWR from 'swr';
 
 import { axiosBaseConfig } from '@/utils/api-base-config';
@@ -8,19 +10,14 @@ export const fetcher = async (url: string) => {
     url: url,
   });
 
-  return res;
+  return res.data;
 };
 
-export const usePlate = (plate: string) => {
-  const { data, error, isLoading, mutate } = useSWR(
-    `consulta/${plate}`,
+export function usePlate(plate: string) {
+  const { data, error, isLoading } = useSWR<PlateProps | null, Error>(
+    `placas/consulta/${plate}`,
     fetcher
   );
 
-  return {
-    data,
-    error,
-    isLoading,
-    mutate,
-  };
-};
+  return { data, error, isLoading };
+}
